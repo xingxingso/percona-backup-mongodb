@@ -115,6 +115,8 @@ func (b *Backup) doLogical(ctx context.Context, bcp *pbm.BackupCmd, opid pbm.OPI
 		return errors.WithMessage(err, "get config")
 	}
 
+	l.Info("current config: %+v\n", cfg.Storage.S3)
+
 	snapshotSize, err := snapshot.UploadDump(dump,
 		func(ns, ext string, r io.Reader) error {
 			stg, err := pbm.Storage(cfg, l)
@@ -132,6 +134,9 @@ func (b *Backup) doLogical(ctx context.Context, bcp *pbm.BackupCmd, opid pbm.OPI
 	if err != nil {
 		return errors.Wrap(err, "mongodump")
 	}
+
+	l.Info("snapshotSize: %v\n", snapshotSize)
+
 	l.Info("mongodump finished, waiting for the oplog")
 
 	err = b.cn.ChangeRSState(bcp.Name, rsMeta.Name, pbm.StatusDumpDone, "")
