@@ -2,6 +2,7 @@ package backup
 
 import (
 	"context"
+	"github.com/aws/aws-sdk-go/service/s3/s3manager"
 	"io"
 	"path"
 	"strings"
@@ -115,7 +116,7 @@ func (b *Backup) doLogical(ctx context.Context, bcp *pbm.BackupCmd, opid pbm.OPI
 		return errors.WithMessage(err, "get config")
 	}
 
-	l.Info("current config: %+v\n", cfg.Storage.S3)
+	l.Info("current config: %+v, s3manager.MaxUploadParts: %v\n", cfg.Storage.S3, s3manager.MaxUploadParts)
 
 	snapshotSize, err := snapshot.UploadDump(dump,
 		func(ns, ext string, r io.Reader) error {
