@@ -628,7 +628,7 @@ func (u *multiuploader) upload(firstBuf io.ReadSeeker, cleanup func()) (*UploadO
 		return nil, &multiUploadError{
 			awsError: awserr.New(
 				"MultipartUpload",
-				"upload multipart failed",
+				fmt.Sprintf("upload multipart failed, parts: %v, size: %v\n", u.cfg.MaxUploadParts, u.cfg.PartSize),
 				err),
 			uploadID: u.uploadID,
 		}

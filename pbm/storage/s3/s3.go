@@ -304,6 +304,8 @@ func (s *S3) Save(name string, data io.Reader, sizeb int64) error {
 			}
 		}
 
+		s.log.Info("partSize: %v", partSize)
+
 		_, err = s3manager.NewUploader(awsSession, func(u *s3manager.Uploader) {
 			u.MaxUploadParts = s.opts.MaxUploadParts
 			u.PartSize = partSize      // 10MB part size
