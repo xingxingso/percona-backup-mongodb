@@ -19,7 +19,7 @@ import (
 
 // MaxUploadParts is the maximum allowed number of parts in a multi-part upload
 // on Amazon S3.
-const MaxUploadParts = 10000000
+const MaxUploadParts = 10000
 
 // MinUploadPartSize is the minimum allowed part size when uploading a part to
 // Amazon S3.
